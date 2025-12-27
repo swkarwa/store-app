@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+env/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Database
+instance/
+*.sqlite3
+*.db
+
+# Environment
+.env
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
