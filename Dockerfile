@@ -13,7 +13,7 @@ COPY . .
 EXPOSE 5000
 
 # Set environment variables
-ENV FLASK_APP=app::create_app
+ENV FLASK_APP=app:create_app
 ENV FLASK_DEBUG=1
 
 # Run the application
