@@ -8,7 +8,3 @@ services:
     environment:
       - FLASK_APP=app::create_app
       - FLASK_DEBUG=1
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-    env_file:
-      - .env
-

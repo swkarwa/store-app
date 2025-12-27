@@ -1,9 +1,9 @@
 import os
-import secrets
 
 from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
+from dotenv import dotenv_values
 
 from db import db
 from flask_migrate import Migrate
@@ -12,6 +12,26 @@ from resources.store import blp as store_blue_print
 from resources.item import blp as item_blue_print
 from resources.tag import blp as tag_blue_print
 from resources.user import blp as user_blue_print
+
+
+def get_jwt_secret():
+    """Get JWT secret from environment variable, .env, or .flaskenv (in that order)."""
+    # First check environment variable
+    jwt_secret = os.getenv('JWT_SECRET_KEY')
+    if jwt_secret:
+        return jwt_secret
+    
+    # Try .env file
+    env_config = dotenv_values('.env')
+    if env_config.get('JWT_SECRET_KEY'):
+        return env_config['JWT_SECRET_KEY']
+    
+    # Fall back to .flaskenv
+    flaskenv_config = dotenv_values('.flaskenv')
+    if flaskenv_config.get('JWT_SECRET_KEY'):
+        return flaskenv_config['JWT_SECRET_KEY']
+    
+    raise RuntimeError("JWT_SECRET_KEY not found in environment, .env, or .flaskenv")
 
 
 def create_app(db_url=None):
@@ -27,10 +47,8 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv('DB_URL', 'sqlite:///db.sqlite3')
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
-    # JWT secret key - must be set via environment variable
-    jwt_secret = os.getenv('JWT_SECRET_KEY')
-    if not jwt_secret:
-        raise RuntimeError("JWT_SECRET_KEY environment variable is required")
+    # JWT secret key - from env, .env, or .flaskenv
+    jwt_secret = get_jwt_secret()
 
     app.config['JWT_SECRET_KEY'] = jwt_secret
     jwt = JWTManager(app)
