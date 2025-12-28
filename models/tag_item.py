@@ -1,10 +1,15 @@
+from sqlalchemy.orm import Mapped
+
 from db import db
 
 
 class TagItemModel(db.Model):
+    __tablename__ = "item_tags"
 
-    __tablename__ = 'item_tags'
-
-    id = db.Column(db.Integer , primary_key=True)
-    item_id = db.Column(db.Integer , db.ForeignKey('items.id') , nullable=False)
-    tag_id = db.Column(db.Integer , db.ForeignKey('tags.id') , nullable=False)
+    id: Mapped[int] = db.Column(db.Integer, primary_key=True)
+    item_id: Mapped[int] = db.Column(
+        db.Integer, db.ForeignKey("items.id"), nullable=False
+    )
+    tag_id: Mapped[int] = db.Column(
+        db.Integer, db.ForeignKey("tags.id"), nullable=False
+    )
