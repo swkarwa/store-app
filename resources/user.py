@@ -1,5 +1,3 @@
-from os import abort
-
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
 from flask_smorest import Blueprint, abort

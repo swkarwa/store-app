@@ -8,7 +8,7 @@ class TagModel(db.Model):
 
     id: Mapped[int] = db.Column(db.Integer, primary_key=True)
     name: Mapped[str] = db.Column(db.String(255), unique=False, nullable=False)
-    store_id: Mapped[str] = db.Column(
+    store_id: Mapped[int] = db.Column(
         db.Integer, db.ForeignKey("stores.id"), nullable=False
     )
 
